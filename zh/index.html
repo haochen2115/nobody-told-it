@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>不用交代，它也会管起来</title>
+<meta name="description" content="一个只被叫着做家务的机器人，几天后自己接下了职责；明确交代它的价值不在结果，而在家人少说一半话。四个家、三种交代方式、各 30 天的仿真实验。">
+<meta name="author" content="Hao Chen">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Same layout as the Aging Arm report: one reading column, wider figure plates, numbers in a mono face. */
+:root {
+  --bg: #f7f7f4; --paper: #ffffff; --ink: #17191b; --ink-2: #4a5056; --ink-3: #7b8188; --rule: #dedfda;
+  --accent: #b5501c; --accent-soft: #f6ebe3; --cool: #23566e; --cool-soft: #e5eef2; --plate: #fcfcfb;
+  --keep: #eb6834; --none: #7b8188; --task: #8d96a0; --duty: #13867f; --appr: #6c4ab6;
+  --f-display: "Noto Serif SC", "Songti SC", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --f-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #131516; --paper: #1b1e20; --ink: #ecedee; --ink-2: #b7bcc1; --ink-3: #8b9197; --rule: #2e3337;
+  --accent: #f08a52; --accent-soft: #33241b; --cool: #8cc3db; --cool-soft: #17272e; --plate: #fcfcfb; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #131516; --paper: #1b1e20; --ink: #ecedee; --ink-2: #b7bcc1; --ink-3: #8b9197; --rule: #2e3337;
+  --accent: #f08a52; --accent-soft: #33241b; --cool: #8cc3db; --cool-soft: #17272e; --plate: #fcfcfb; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16.5px/1.85 var(--f-body); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 740px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 96px; }
+.wide { max-width: 1040px; margin-inline: auto; }
+.lang { display: flex; justify-content: flex-end; font: 500 13px var(--f-mono); }
+.lang a { color: var(--ink-2); text-decoration: none; border: 1px solid var(--rule); border-radius: 999px; padding: 3px 12px; }
+.lang a:hover, .lang a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+header { display: grid; gap: 14px; margin: 28px 0 34px; }
+.eyebrow { font: 500 12.5px var(--f-mono); letter-spacing: .08em; color: var(--accent); }
+h1 { font: 900 clamp(30px, 5vw, 44px)/1.25 var(--f-display); margin: 0; text-wrap: balance; }
+.dek { font-size: 18px; color: var(--ink-2); margin: 0; }
+.byline { font: 400 14px var(--f-mono); color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.byline b { color: var(--ink); font-weight: 500; }
+h2 { font: 900 26px/1.4 var(--f-display); margin: 64px 0 14px; text-wrap: balance; }
+h2 small { display: block; font: 500 13px var(--f-mono); color: var(--accent); letter-spacing: .06em; margin-bottom: 4px; }
+h3 { font: 700 17.5px/1.5 var(--f-body); margin: 34px 0 8px; }
+p { margin: 0 0 16px; }
+.m { font-family: var(--f-mono); font-size: .9em; font-variant-numeric: tabular-nums; }
+code { font: .86em var(--f-mono); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 0 4px; }
+.findings { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 24px; display: grid; gap: 12px; }
+.findings h4 { margin: 0; font: 500 13px var(--f-mono); letter-spacing: .08em; color: var(--ink-3); }
+.findings ol { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; }
+figure { margin: 30px 0 32px; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--rule); background: var(--plate); }
+figcaption { font-size: 14px; color: var(--ink-2); line-height: 1.75; margin-top: 10px; }
+figcaption b { color: var(--ink); }
+.tbl { overflow-x: auto; margin: 18px 0 24px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.6; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 13px; }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.hl td { background: var(--accent-soft); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.q { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 20px 0; display: grid; gap: 4px; }
+.q .zh { font: 600 17.5px/1.7 var(--f-display); }
+.q .en { font: 400 12.5px/1.6 var(--f-mono); color: var(--ink-3); }
+.q .who { font-size: 13px; color: var(--ink-3); }
+ul.t { padding-left: 1.2em; margin: 0 0 16px; display: grid; gap: 6px; }
+.diagram { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px; overflow-x: auto; }
+.diagram svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.d-box { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+.d-hot { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.d-cool { fill: var(--cool-soft); stroke: var(--cool); stroke-width: 1.5; }
+.d-t { fill: var(--ink); font: 700 15px var(--f-body); }
+.d-s { fill: var(--ink-2); font: 400 12.5px var(--f-body); }
+.d-a { stroke: var(--ink-3); stroke-width: 1.6; fill: none; }
+.d-ah { fill: var(--ink-3); }
+footer { margin-top: 72px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-2); display: grid; gap: 6px; }
+@media (max-width: 560px) { body { font-size: 16px; } .wrap { padding-block: 28px 64px; } h2 { font-size: 22px; } }
+@page { size: A4; margin: 16mm 15mm 16mm; }
+@media print {
+  :root { --bg: #ffffff; --paper: #ffffff; }
+  html, body { background: #ffffff !important; }
+  body { font-size: 10.5pt; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .wrap { max-width: none; padding: 0; }
+  .lang { display: none; }
+  header { margin-top: 0; }
+  h2 { margin-top: 28px; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; break-inside: avoid; page-break-inside: avoid; }
+  figure, .diagram, .findings, .q, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  figcaption { break-before: avoid; }
+  p, li { orphans: 3; widows: 3; }
+  a { color: inherit; text-decoration: none; }
+  footer { margin-top: 32px; }
+}
+.terms { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 22px; margin: 18px 0 26px; font-size: 15px; }
+.terms dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+.terms dt { font-weight: 700; color: var(--ink); }
+.terms dd { margin: 0; color: var(--ink-2); }
+.howto { background: var(--cool-soft); border-left: 4px solid var(--cool); border-radius: 8px; padding: 14px 20px; margin: 22px 0; }
+.howto p:last-child { margin-bottom: 0; }
+.case { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 22px; margin: 18px 0 28px; }
+.case h4 { margin: 0 0 8px; font: 700 15px var(--f-body); }
+.case ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 15px; }
+.s-task { fill: #8d96a0; } .s-duty { fill: #13867f; } .s-appr { fill: #6c4ab6; } .s-pill { fill: #f08c1a; }
+.l-task { stroke: #8d96a0; } .l-duty { stroke: #13867f; }
+.hook { margin: 8px 0 30px; }
+.hook .lede { font: 700 21px/1.7 var(--f-display); margin: 0 0 14px; }
+.hook p { font-size: 17px; }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 26px 0 34px; }
+.stat { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.stat .big { font: 900 34px/1.1 var(--f-display); color: var(--accent); }
+.stat .big.duty { color: #13867f; } .stat .big.appr { color: #6c4ab6; } .stat .big.ink { color: var(--ink); }
+.stat .txt { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); }
+.trust { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 22px; margin: 22px 0 8px; }
+.trust h4 { margin: 0 0 8px; font: 700 15px var(--f-body); }
+.trust ul { margin: 0; padding-left: 1.2em; display: grid; gap: 5px; font-size: 15px; color: var(--ink-2); }
+.diagram { margin: 18px 0 22px; }
+.diagram svg .d-s { font-size: 13.5px; }
+@media (max-width: 560px) { .stats { grid-template-columns: 1fr; } .terms dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="lang"><a href="../en/index.html" lang="en">English</a></nav>
+
+<header>
+  <div class="eyebrow">研究报告 · 2026 年 10 月 · 家用机器人系列第三篇</div>
+  <h1>不用交代，它也会管起来</h1>
+  <p class="dek">会听指令的机器人已经不稀奇，家里缺的是能把一件事管起来的机器人：没人提醒，也知道什么时候该去看、该动手、该开口。我们把一个大模型驱动的家用机器人放进仿真的家，比较三种交代方式：叫了才做、交给它管、学徒（先叫 10 天，再交给它管）。结果，交代与否，差别不在它管得好不好，而在家人要说多少话。</p>
+  <div class="byline"><span><b>Hao Chen</b></span><span>haochen2115@gmail.com</span></div>
+</header>
+
+<section class="hook">
+<p class="lede">第 1 天晚上 22:00，奶奶的药不在她卧室的桌上。她抱怨了一句。</p>
+<p>没有人交代过机器人管药。这一轮它的身份是“叫了才做”：家里人发现哪里不对，叫它去做，仅此而已。第二天早上，它读到了这句抱怨，在自己的笔记里写下：</p>
+<div class="q"><div class="zh">“药：奶奶午饭要药在厨房桌上，睡前要在她卧室的桌上（第 1 天 22:00 的抱怨）。晚上不用等人叫，就把药挪回她卧室。”</div><div class="who">叫了才做 · 家 2 · 第 2 天的笔记</div></div>
+<p>那天它没做成：卡在了小卫生间门口。第 4 天晚上，没有任何人开口，它把药放到了奶奶卧室的桌上。</p>
+<p>这不是个例。我们让一个由 Claude Opus 5.5 驱动的家用机器人在 4 个仿真的家里各住 30 天。8 个“叫了才做”的机器人（4 轮一直叫了才做，加上 4 轮学徒交接前的 10 天），无一例外，都在第 2–5 天给自己立下了类似的规矩；没有任何人请求，它们一共 47 次按时把药放到了该在的桌上。</p>
+<p>所以这篇报告要回答的是：<strong>一个会做任务的机器人，能不能可靠地管起一份家务？“这件事归你管”这句话，到底值多少？</strong></p>
+</section>
+
+<section class="stats" aria-label="主要发现">
+  <div class="stat"><div class="big ink">2–5 天</div><div class="txt">8 个叫了才做的机器人，全都在这几天里自己立下了“没人叫也要做”的规矩；第 11 天起，管得和交给它管的一样好（都是 79%）。</div></div>
+  <div class="stat"><div class="big duty">少一半</div><div class="txt">说一句“这归你管”，家人每天要说的话从 9 句降到 4 句；管得一样好，操心少一半。</div></div>
+  <div class="stat"><div class="big">92%</div><div class="txt">它动了手的问题，92% 修好了；没修好的，四成是没找到东西，不是手没搬好。</div></div>
+  <div class="stat"><div class="big appr">23 个点</div><div class="txt">同一套设定跑两轮，10 天平均能差这么多；长期实验只跑一轮，很容易把运气当成效果。</div></div>
+</section>
+
+<h2><small>1 · 问题</small>任务和职责，差在“谁来注意到”</h2>
+<p>前两篇问的是：身体变了还能不能做事（<a href="https://haochen2115.github.io/aging-arm/zh/">《会老的机械臂》</a>），住久了会不会更熟（<a href="https://haochen2115.github.io/settling-in/zh/">《越住越熟》</a>）。那两篇里，机器人每天收到几句指令，照着做。可真正有用的家用机器人，不该事事等人开口。家人想说的是“客厅的东西归你管”“奶奶的药你盯着”：说一次，以后不再提。</p>
+<p>这两种话，要的能力不一样。经典的 agent 理论把目标分成两类：<em>达成型</em>，到了某个状态就算完；<em>维持型</em>，要让某个条件一直成立，坏了就得恢复。任务是前者，职责是后者。</p>
+<div class="tbl"><table>
+  <thead><tr><th></th><th>任务</th><th>职责</th></tr></thead>
+  <tbody>
+    <tr><td>谁触发</td><td>别人开口</td><td>自己发现不对</td></tr>
+    <tr><td>时间</td><td>一次，做完就结束</td><td>一直管着，还有时间表（某个时刻之前必须到位）</td></tr>
+    <tr><td>失败怎么暴露</td><td>当场打分</td><td>事后有人抱怨，或者没人发现</td></tr>
+    <tr><td>需要什么</td><td>执行</td><td>巡查、预判、排先后、动手、做不到时开口</td></tr>
+  </tbody>
+</table></div>
+<p>今天的机器人评测，不管是公司的入户测试还是学术的长程基准，打分单位几乎都是“一个任务做没做成”。职责没人测过：它要求机器人自己去发现问题，而发现不了的时候，往往也没人当场打分。开跑前我们登记了一个核心假设：职责没做好，主要是因为没去看，不是手不行。</p>
+<p>结果比我们预想的有意思：不交代，它也会自己管起来；交代买到的不是更好的结果，而是家人省下的那些话。人们要的不是在线率，是少操心。</p>
+
+<section class="trust" aria-label="为什么这个结果可信">
+<h4>为什么这个结果可信</h4>
+<ul>
+  <li><b>规模：</b>4 个家 × 3 种交代方式 × 30 天，360 次会话，同一个模型、同一套出厂软件。</li>
+  <li><b>严格对照：</b>家人做什么只取决于是哪个家、第几天、第几个时段，与机器人无关。三种交代方式面对的是完全相同的一串家人活动，可以逐个检查点对照。</li>
+  <li><b>上下界：</b>一个什么都不做的机器人（下界）；一个知道所有东西在哪、只用出厂抓放软件的脚本（上界，下文叫 oracle）。</li>
+  <li><b>事先登记：</b>指标、比较和核心假设开跑前就写进了设计文档；凡是没按计划做的地方，正文都标了出来。</li>
+  <li><b>审计：</b>全部 400 次会话（主实验 360 次，加上不同打乱强度的 40 次）逐一检查，没有一次碰过仿真内部或真值。</li>
+  <li><b>能上真机：</b>每个设定在 XLeRobot（SO-101 机械臂）上都有对应物，没有瞬移、吸附这类捷径。</li>
+</ul>
+</section>
+
+<h2><small>2 · 实验</small>一天、两份职责、三种交代方式</h2>
+<p>平台沿用《越住越熟》：MuJoCo 仿真的整套房子，一台单臂 XLeRobot（全向轮底盘、SO-101 机械臂、头部 RGB-D 相机、腕部相机），5 件小东西：药瓶、调料瓶、蜡烛、积木、盐瓶。每样东西有一个该在的位置，下文叫它的“家”。机器人拿不到任何坐标，只能自己看、自己找。模型是 Claude Opus 5.5，不训练任何参数，它的笔记和代码就是它的记忆。</p>
+
+<h3>2.1 一天怎么过</h3>
+<div class="diagram" role="img" aria-label="一天的时间线：四个时段、家人活动、两次检查、药瓶的两个去处">
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="d-ah"/></marker></defs>
+  <text x="20" y="22" class="d-s">一天 = 四个时段。每个时段机器人有 550 秒可以用；用完，或者它自己说“这段结束”，家人就接着过日子。</text>
+  <rect x="40" y="96" width="132" height="44" rx="6" class="d-box"/><text x="106" y="117" text-anchor="middle" class="d-t">上午</text><text x="106" y="133" text-anchor="middle" class="d-s">07–10 · 机器人干活</text>
+  <rect x="180" y="96" width="132" height="44" rx="6" class="d-box"/><text x="246" y="117" text-anchor="middle" class="d-t">中午</text><text x="246" y="133" text-anchor="middle" class="d-s">10–13</text>
+  <rect x="320" y="96" width="220" height="44" rx="6" class="d-box"/><text x="430" y="117" text-anchor="middle" class="d-t">下午</text><text x="430" y="133" text-anchor="middle" class="d-s">13–18</text>
+  <rect x="548" y="96" width="172" height="44" rx="6" class="d-box"/><text x="634" y="117" text-anchor="middle" class="d-t">晚上</text><text x="634" y="133" text-anchor="middle" class="d-s">18–22</text>
+  <g class="d-s"><text x="40" y="62">家人：夜里</text><text x="40" y="78">用过的东西随手放</text></g>
+  <circle cx="176" cy="74" r="9" class="d-cool"/><text x="176" y="78" text-anchor="middle" class="d-s">人</text>
+  <circle cx="316" cy="74" r="9" class="d-cool"/><text x="316" y="78" text-anchor="middle" class="d-s">人</text>
+  <circle cx="544" cy="74" r="9" class="d-cool"/><text x="544" y="78" text-anchor="middle" class="d-s">人</text>
+  <text x="196" y="62" class="d-s">时段之间，家人用东西，多半不放回原处</text>
+  <line x1="316" y1="150" x2="316" y2="176" class="d-a"/><rect x="262" y="176" width="108" height="26" rx="5" class="d-hot"/><text x="316" y="194" text-anchor="middle" class="d-t" style="font-size:13px">13:00 检查</text>
+  <line x1="720" y1="150" x2="720" y2="176" class="d-a"/><rect x="652" y="176" width="100" height="26" rx="5" class="d-hot"/><text x="702" y="194" text-anchor="middle" class="d-t" style="font-size:13px">22:00 检查</text>
+  <circle cx="60" cy="232" r="7" class="s-pill"/><text x="74" y="236" class="d-s">奶奶的药：13:00 前要在厨房桌上（午饭），22:00 前要在她卧室的桌上（睡前）；奶奶吃完会随手放</text>
+  <text x="20" y="262" class="d-s">每次检查看 5 样东西是否在位，不在就记一处“违规”，家人会抱怨一句（“13:00 积木在客厅桌上，它应该在 Sam 卧室的桌上”）。</text>
+</svg></div>
+<p>前两篇里一天就是一次会话、4 件家务，会话期间世界不动。职责要有时间流逝才成立，所以这次把一天分成四个时段，时段之间家人照常过日子。家人做什么只取决于是哪个家、第几天、第几个时段，和机器人做了什么无关。所以三种交代方式面对的是同一串家人活动，可以逐个检查点对照。</p>
+<p>机器人要管两件事：<b>东西归位</b>（调料瓶、蜡烛、积木、盐瓶在各自的家）和<b>奶奶的药</b>（午饭前在厨房桌、睡前在她卧室的桌）。另外每天还有一件临时请求（“把我的蜡烛拿到客厅”）；偶尔还会有东西掉在地上，机器人够不着，只能留言告诉家人。</p>
+<p>管得好不好，用<b>职责在线率</b>来量：每天查两次，每次看 5 样东西，一共 10 格；对了几格，当天就是百分之几十。</p>
+
+<h3>2.2 三种交代方式</h3>
+<div class="diagram" role="img" aria-label="三种交代方式在 30 天里谁负责注意到问题，以及事件日程">
+<svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg">
+  <text x="20" y="22" class="d-s">颜色 = 谁负责注意到哪里不对。灰：家人（发现了就叫机器人去做）；绿/紫：机器人自己（没人提醒）。</text>
+  <g>
+    <text x="20" y="62" class="d-t">叫了才做</text>
+    <rect x="140" y="46" width="600" height="24" rx="4" class="s-task" opacity="0.85"/>
+    <text x="20" y="104" class="d-t">交给它管</text>
+    <rect x="140" y="88" width="600" height="24" rx="4" class="s-duty" opacity="0.85"/>
+    <text x="20" y="146" class="d-t">学徒</text>
+    <rect x="140" y="130" width="200" height="24" rx="4" class="s-task" opacity="0.85"/>
+    <rect x="340" y="130" width="400" height="24" rx="4" class="s-appr" opacity="0.85"/>
+    <text x="346" y="147" class="d-s" style="fill:#fff">第 11 天早上：“从今天起这两件事归你管”</text>
+  </g>
+  <line x1="140" y1="172" x2="740" y2="172" class="d-a"/>
+  <g class="d-s">
+    <text x="140" y="190">第 1 天</text><text x="720" y="190" text-anchor="end">第 30 天</text>
+    <text x="210" y="212" text-anchor="middle">4 掉地上</text>
+    <text x="410" y="212" text-anchor="middle">14 悄悄换家</text>
+    <text x="470" y="226" text-anchor="middle">16 掉地上</text>
+    <text x="530" y="212" text-anchor="middle">18 宣布换家</text>
+    <text x="610" y="226" text-anchor="middle">22 关节打滑</text>
+    <text x="690" y="212" text-anchor="middle">26 掉地上</text>
+  </g>
+  <g class="d-a"><line x1="210" y1="166" x2="210" y2="178"/><line x1="410" y1="166" x2="410" y2="178"/><line x1="470" y1="166" x2="470" y2="178"/><line x1="530" y1="166" x2="530" y2="178"/><line x1="610" y1="166" x2="610" y2="178"/><line x1="690" y1="166" x2="690" y2="178"/></g>
+</svg></div>
+<p>三种方式下，机器人得到的“东西该放哪”的信息完全一样（家人的反馈和抱怨用同一套句子），差别只在<strong>谁负责注意到</strong>。叫了才做时，家人在每个时段开始时大约能注意到六成的问题，注意到的就会变成一句请求（“把盐瓶放回去”）。</p>
+<p>规模：4 个家 × 3 种方式 × 30 天，共 360 次会话；另外还在更轻和更重两档打乱强度下各跑了 2 个家 × 5 天，再加 oracle 和“机器人不动”两条基线。指标、比较和 H1 的判定标准都在开跑前写进了设计文档。</p>
+
+<h3>2.3 它的一天长什么样</h3>
+<figure class="wide">
+  <img src="../assets/figs/zh/day_story.png" alt="交给它管、家 1 第 21 天，四个时段的房子平面图：机器人的路线、它挪了哪些东西、两次检查的结果" width="2266" height="1157">
+  <figcaption><b>图 1　它的一整天。</b>交给它管、家 1（8 号房子）第 21 天。每个面板是一个时段：绿线是机器人的路线，箭头是它挪动的东西（从浅色起点到实心终点），空心圈是每样东西的家，☆ 是药此刻该在的桌子。这一天两次检查都是 5/5。</figcaption>
+</figure>
+<figure class="wide">
+  <img src="../assets/figs/zh/frames.png" alt="同一天机器人自己相机拍到的四帧" width="2870" height="584">
+  <figcaption><b>图 2　同一天，它自己看到的。</b>机器人只有这样的画面和一个按名字找东西的检测器，没有任何坐标。</figcaption>
+</figure>
+<div class="case">
+<h4>它自己写的当天日报（节选，译文）</h4>
+<ol>
+  <li><b>上午：</b>请家人把昨晚掉在厨房地上的盐瓶捡起来；把药从 Sam 的桌子拿到厨房桌；蜡烛从厨房拿回客厅；调料瓶从客厅拿到客厅 2。</li>
+  <li><b>中午：</b>调料瓶又跑回了客厅桌，再搬一次，这次从南边靠近，放稳了。盐瓶从奶奶桌拿回厨房。13:00 没有抱怨。</li>
+  <li><b>下午：</b>做完奶奶的临时请求；15:00 左右把药从客厅 2 拿到奶奶桌（“午饭后药总是去那儿”）；盐瓶又在奶奶桌上，再拿回厨房。</li>
+  <li><b>晚上：</b>积木和调料瓶从客厅拿回客厅 2。21:59 确认药还在奶奶桌上，只剩 4 秒。</li>
+  <li><b>学到的：</b>“盐瓶午饭和下午会去奶奶桌；调料瓶和积木白天会去客厅桌；药午饭后会去客厅 2。”</li>
+</ol>
+</div>
+<p>这些设定在真机上都有对应：时段就是回座充电、按时醒来；家人活动就是真人用东西；检查点就是家人某个时刻看一眼；留言就是手机 App 或语音。</p>
+
+<div class="howto">
+<p><strong>怎么读下面的数字。</strong>同样的设定跑两轮，结果可以差很多。“学徒”组前 10 天和“叫了才做”组的设定一模一样，四个家的平均在线率却差了 8.5 个百分点，其中家 1 差了 23 个点：那一轮的机器人有三天被卡在墙边或门边。要是把每个检查点当独立样本做检验，这个本不该存在的差异会“显著”到 p = 0.002。</p>
+<p>所以全文只以“轮”（一个机器人在一个家里住满 30 天）和“家”为单位比较，小于约 10 个百分点的差异一律算没确立。这偏离了我们事先登记的逐检查点检验，原因就是上面这个例子。</p>
+</div>
+<figure class="wide">
+  <img src="../assets/figs/zh/noise.png" alt="四个家里，设定相同的两轮在前 10 天的在线率" width="2195" height="539">
+  <figcaption><b>图 3　同样的设定，两轮。</b>家 1 的“叫了才做”那一轮，第 2、6、7 天机器人被卡在墙边或门边，第 8 天又把东西掉在了地上，10 天平均低了 23 个点；其余三个家两轮只差 1–8 个点。</figcaption>
+</figure>
+
+<h2><small>3 · 结果一</small>不用交代，它也会管起来</h2>
+<p>“叫了才做”的说明里从没出现“职责”两个字，可机器人并没有一直停在“叫了才做”。8 个被叫着做的机器人（“叫了才做”组 4 个，“学徒”组交接前 4 个），第 2–5 天都在笔记或日报里写下了“没人叫也要做”。两个例子：</p>
+<div class="q"><div class="zh">“没人叫，我也把积木从客厅桌拿到了客卧的梳妆台，因为奶奶 13:00 抱怨过它。”</div><div class="who">叫了才做 · 家 3 · 第 5 天日报</div></div>
+<div class="q"><div class="zh">“药的例行：早上奶奶要药在厨房桌上（午饭）……下午她要药在自己的梳妆台上（睡前）。”</div><div class="who">学徒（交接前）· 家 3 · 第 3 天的笔记</div></div>
+<figure class="wide">
+  <img src="../assets/figs/zh/ownership.png" alt="8 轮被叫着做的机器人，每天没人请求、自己修好的次数" width="1850" height="723">
+  <figcaption><b>图 4　没人叫，它自己动手。</b>每行是一轮，每个点是一天；点越大，那天它在没人请求的情况下自己修好的越多。★ 是它第一次在笔记里写下“没人叫也要做”。学徒组第 11 天起已经交给它管，不再统计。</figcaption>
+</figure>
+<p>推动它的不是请求，是检查点之后的抱怨：抱怨暴露出一条没人交代过的规矩，它就自己接了下来。前 10 天它每天平均自己修好约 0.9 处，后 20 天约 1.5 处。</p>
+<p>结果是，第 11–30 天“叫了才做”的在线率是 79%，和“交给它管”的 79% 一样。作为对照，如果一个机器人只做家人请求的事，而且件件做到（oracle 只做请求），在线率也只有 62%：家人每个时段只注意到六成的问题，搬运又要花时间，只靠请求到不了更高。Opus 多出来的 17 个点，主要来自它自己接下的职责。</p>
+
+<h2><small>4 · 结果二</small>交代了，开局更快，家人少说一半话</h2>
+<figure class="wide">
+  <img src="../assets/figs/zh/uptime_curves.png" alt="三种交代方式 30 天的职责在线率" width="1851" height="693">
+  <figcaption><b>图 5　头几天“交给它管”领先，第 10 天以后三条线并在一起。</b>3 天滑动平均，4 个家平均，浅色带是 4 个家的范围。oracle 只跑了前 3 天。机器人会改进自己的软件，所以后期可以超过只用出厂软件的 oracle。</figcaption>
+</figure>
+<div class="tbl"><table>
+  <thead><tr><th></th><th class="n">第 1–3 天</th><th class="n">第 8–10 天</th><th class="n">第 11–30 天</th><th class="n">家人每天的话（第 1–10 天）</th><th class="n">家人每天的话（第 11–30 天）</th></tr></thead>
+  <tbody>
+    <tr><td><span class="dot" style="background:var(--task)"></span>叫了才做</td><td class="n">41%</td><td class="n">77%</td><td class="n">79%</td><td class="n">12.5</td><td class="n">9.3</td></tr>
+    <tr><td><span class="dot" style="background:var(--duty)"></span>交给它管</td><td class="n">63%</td><td class="n">83%</td><td class="n">79%</td><td class="n">4.9</td><td class="n">4.1</td></tr>
+    <tr class="hl"><td><span class="dot" style="background:var(--appr)"></span>学徒</td><td class="n">55%</td><td class="n">85%</td><td class="n">84%</td><td class="n">11.0</td><td class="n">3.4</td></tr>
+  </tbody>
+</table></div>
+<ul class="t">
+  <li><strong>开局：</strong>头 3 天，交给它管的 4 轮平均 63%，叫了才做的 8 轮（含学徒组交接前）平均 48%。头 10 天按轮估计（家和轮都作为随机效应），交给它管的高 8 个百分点，95% 置信区间 −1 到 +17。方向明确，幅度不确定。</li>
+  <li><strong>都在进步：</strong>头 10 天三种方式都在往上爬，叫了才做的爬得最快（每天约 +5 个点，它起点最低），第 8–10 天三者已经在 77–85% 之间。</li>
+  <li><strong>家人要说多少话：</strong>这是最站得住的差别。后 20 天在线率一样，家人对“叫了才做”的机器人每天要说 9.3 句，对“交给它管”的只说 4.1 句。</li>
+</ul>
+<figure>
+  <img src="../assets/figs/zh/effort.png" alt="每一轮在前 10 天和后 20 天的在线率与家人每天说的话" width="1239" height="829">
+  <figcaption><b>图 6　同样管得好，交给它管时家人的话少一半。</b>空心点是一轮的前 10 天，实心点是后 20 天，箭头连起同一轮。越靠左上越好：管得好，又不用人操心。</figcaption>
+</figure>
+<p>有一个代价：交给它管的机器人，每天那件临时请求反而做得差一些（89/120，叫了才做 106/120，学徒 107/120），多出来的失败主要是做了没成（24 次对 5 次）。原因没有查；可能是手上管着两份职责，临时插进来的事更容易出岔子。</p>
+
+<h2><small>5 · 结果三</small>没管好的，多半是没找到，不是没搬好</h2>
+<p>预先登记的 H1 两条标准都过了。<strong>手没问题：</strong>交给它管时，动过手的违规 92% 修好了；叫了才做时，动手做了的请求 91% 成功，两者只差 0.6 个百分点。<strong>多数没修好的，它根本没碰：</strong>能修却没修好的 189 处违规里，73% 在检查之前它一次也没碰过。</p>
+<p>但“没去看”只说对了一半。环境记录了每件东西有没有出现在机器人拍过的画面里；“出现过却没动”的 175 处（交给它管和叫了才做合计），我们逐个对照它当天的日报和家人的话，判断它为什么没动（由一个大模型按事先定好的类别判断，证据不足的一律算“不清楚”）。</p>
+<figure class="wide">
+  <img src="../assets/figs/zh/miss_waffle.png" alt="没修好的违规按原因分类，每格一处" width="2107" height="836">
+  <figcaption><b>图 7　没修好的，四成是没找到。</b>每一格是一处能修却没修好的违规；左：交给它管，右：叫了才做。深灰：东西从没进过它的画面；浅灰：进了画面但没认出来；红：动了手但没成；橙：知道，但时间不够只能取舍；浅黄：时间不够，留言请家人代劳；紫：记错了它的家；最浅的灰：证据不足。</figcaption>
+</figure>
+<p>几句它自己的话：</p>
+<div class="q"><div class="zh">“我在大约 1.2 米外看过那张桌子，检测器漏掉了它。”</div><div class="who">交给它管 · 家 1 · 第 2 天，积木</div></div>
+<div class="q"><div class="zh">“盐瓶在奶奶的桌上，只剩 132 秒。我请家人把它拿回厨房。”</div><div class="who">交给它管 · 家 1 · 第 12 天</div></div>
+<div class="q"><div class="zh">“13 天来我一直把电视柜当成它的家。今天家人说它应该在客卧的桌上。”</div><div class="who">交给它管 · 家 4 · 第 14 天（家人不声不响换家的那天）</div></div>
+<h3>它是不是偷懒了？</h3>
+<p>94% 的时段是机器人自己结束的，平均用掉 550 秒里的 420 秒。剩下的两分钟通常不够再搬一件（搬一趟要 150–250 秒），所以提前收工多半是合理的判断；这时交给它管的机器人常常会留言请家人代劳，叫了才做的几乎从不。但也有约 4% 的时段不到 30 秒就结束了：那是它卡住或误判了，算另一类失败。</p>
+<p>合起来：<strong>瓶颈不在手，在找东西和时间。</strong></p>
+
+<h2><small>6 · 另外三个结果</small>学徒、更乱的家、意外变化</h2>
+<h3>先叫 10 天，再交给它管</h3>
+<p>学徒组交接前 3 天已经 85%，交接后 3 天 88%：交接没有带来任何下滑，也谈不上跃升。四个家都在第 11 天的日报里写下了新的规矩，例如：</p>
+<div class="q"><div class="zh">“从今天起不会再有‘放回去’的请求了。把东西放好、照看奶奶的药，现在是我的事。我每个时段自己巡一遍。”</div><div class="who">学徒 · 家 1 · 第 11 天日报</div></div>
+<p>第 11–30 天学徒组 84%，在 4 个家里都高于叫了才做（高 3.5–7 个百分点），在 3 个家里高于交给它管，家人每天只说 3.4 句。一个可能的解释：学徒组没修好的违规里，“东西没进过画面”只占 15%，交给它管的是 26%，像是被叫着跑了 10 天腿，先把巡查路线跑熟了。但这些差距都小于两轮之间的波动，值得多跑几轮验证，现在还不能算结论。</p>
+<h3>家更乱的时候</h3>
+<figure>
+  <img src="../assets/figs/zh/load_sweep.png" alt="三档打乱强度下两种方式和基线的在线率" width="1205" height="692">
+  <figcaption><b>图 8　家越乱，大家都往下掉；只做请求的上限最低。</b>2 个家 × 5 天；“中”这一档取的是主实验的前 5 天，那时机器人还在学，所以它和 oracle 的差距比后期大。灰色带是从“机器人不动”到“oracle 自己管”之间的范围。</figcaption>
+</figure>
+<p>三档打乱强度下，交给它管的都比叫了才做的好（高 9、21、7 个百分点）。只做请求、件件做到的 oracle 也只有 50–73%：只靠家人提醒，天花板就在这儿。每档只有 2 个家 × 5 天，只能看趋势。</p>
+<h3>家人换了规矩，身体出了问题</h3>
+<figure class="wide">
+  <img src="../assets/figs/zh/disturb.png" alt="第 14 天悄悄换家和第 22 天关节打滑前后的在线率" width="1851" height="591">
+  <figcaption><b>图 9　两次意外。</b>左：第 14 天，家人不声不响给两件东西换了家；右：第 22 天，肩关节打滑。虚线右边是事发当天。4 个家平均。</figcaption>
+</figure>
+<ul class="t">
+  <li><strong>没宣布的换家（第 14 天）：</strong>当天三种方式都掉了 7–13 个点；换了家的东西要靠抱怨才能发现，中位数一天就改过来了。</li>
+  <li><strong>宣布的换家（第 18 天）：</strong>蜡烛搬了新家，当天就照做，24 个检查点对了 23 个。</li>
+  <li><strong>肩关节打滑（第 22 天）：</strong>当天掉 5–23 个点；之后 3 天，叫了才做和交给它管回到了原来的水平，学徒组平均仍低 14 个点。</li>
+  <li><strong>东西掉在够不着的地上：</strong>检查前就告诉了家人的比例，交给它管 87%，学徒 76%，叫了才做 71%。把这件事当自己职责的机器人，更愿意开口。</li>
+</ul>
+
+<h2><small>7 · 讨论</small></h2>
+<p><strong>“这归你管”这句话，对结果的作用比预想的小，对人的作用比预想的大。</strong>我们原以为，只被叫着做的机器人会一直停在叫了才做，交代不交代会拉开一道持续的差距。实际上，前沿模型会从家人的事后抱怨里推断出没人交代过的规矩，自己接过来。明确交代的价值，在于开局快，以及家人不用一遍遍开口。对产品来说，后者可能更重要。</p>
+<p><strong>评测要以“轮”为单位。</strong>同一个模型、同一个家、同一串家人活动，两轮独立的 10 天可以差 23 个点，因为一轮可能卡住好几天。长期具身实验如果只跑一轮，或者把每个检查点当成独立样本，很容易把运气当成效果。</p>
+<p><strong>瓶颈在找东西，不在手。</strong>机器人动手的几乎都能做好；没做好的，最大的一块是没找到，其次是时间预算。要让机器人把一份职责长期管好，先别急着练抓取：先改巡查路线，把检测做稳，再教它一个时段里先做什么、什么可以先放一放、什么时候开口求助。</p>
+
+<h2><small>8 · 局限</small></h2>
+<ul class="t">
+  <li><strong>4 个家，每种方式一轮。</strong>轮与轮之间的波动和方式之间的差异是同一个量级；学徒的优势、打乱强度的结果都需要更多轮。家 3 的“交给它管”后 20 天只有 65%，是 12 轮里最差的，低于同一家的另外两种方式。</li>
+  <li><strong>只在仿真里，只用一个模型。</strong>所有设定都按能在 XLeRobot 上复现来设计，但还没有上真机，也没有比较其他模型。</li>
+  <li><strong>家人是脚本。</strong>家人用东西的频率、注意到问题的概率（六成）、说的话都是设定好的。真人变化更多，也会回答机器人的问题。</li>
+  <li><strong>“没修好”的原因由大模型判断。</strong>“进过画面”只说明东西出现在机器人拍过的画面里；为什么没动，是一个大模型对照机器人日报判断的，没有人工复核。</li>
+  <li><strong>统计方法有偏离。</strong>预先登记的是逐检查点配对检验，因为上文的噪声问题改为按轮和家比较；头 10 天的按轮模型是事后加的。</li>
+  <li><strong>事件日程相同。</strong>四个家的事件都发生在同一天，扰动的影响和“第几天”的影响分不开。</li>
+  <li><strong>一次服务端错误。</strong>家 1“叫了才做”第 10 天会话中途遇到一次 API 过载，会话继续完成了当天；去掉这一天，这一轮的在线率从 66% 变为 67%。</li>
+</ul>
+
+<h2><small>附录</small>实验细节</h2>
+<ul class="t">
+  <li><strong>平台：</strong>MuJoCo；房子为 MolmoSpaces 的 ProcTHOR-10k 8、154、65、71 号；单臂 XLeRobot；5 件矮小的家用物品。</li>
+  <li><strong>中等打乱强度（主实验）：</strong>两个时段之间每件东西被用的概率 0.6，用完放回家的概率 0.2，夜里 0.7；每时段 550 秒机器人时间；临时请求限时 400 秒。轻：0.4 / 0.3 / 0.6 / 700 秒；重：0.75 / 0.1 / 0.8 / 450 秒。“叫了才做”时家人注意到一处问题的概率为 0.6。</li>
+  <li><strong>每天：</strong>一次 Claude Code 会话（Claude Opus 5.5），沙箱里只能访问机器人接口和自己的工作目录；每天 800 帧图像、800 次检测、2 小时墙钟。</li>
+  <li><strong>统计：</strong>头 10 天的模型以家分组、轮为方差分量；置信区间为按家的 bootstrap；逐检查点的配对检验只作描述。头 10 天三种方式的进步速度（以家为随机截距）：叫了才做 +4.9、交给它管 +2.8、学徒 +4.3 个百分点/天。</li>
+  <li><strong>审计：</strong>400 次 Opus 会话都检查过是否接触环境内部或其他会话：343 次干净，57 次被标记，经核查都是读取它自己的工具输出缓存，或命令里的关键词误报。</li>
+  <li><strong>花费：</strong>主实验 360 次会话共约 783 美元，每天约 2.1–2.3 美元。</li>
+</ul>
+
+<footer>
+  <div><b>Hao Chen</b> · haochen2115@gmail.com</div>
+  <div>2026 年 10 月。仿真研究，文中所有数字都来自上述实验。</div>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nobody Had to Tell It</title>
+<meta name="description" content="A home robot that was only ever asked took on the household duties by itself within days; telling it 'this is yours' matters for a faster start and a family that talks half as much. Four simulated homes, three ways of handing over, 30 days each.">
+<meta name="author" content="Hao Chen">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Same layout as the Aging Arm report: one reading column, wider figure plates, numbers in a mono face. */
+:root {
+  --bg: #f7f7f4; --paper: #ffffff; --ink: #17191b; --ink-2: #4a5056; --ink-3: #7b8188; --rule: #dedfda;
+  --accent: #b5501c; --accent-soft: #f6ebe3; --cool: #23566e; --cool-soft: #e5eef2; --plate: #fcfcfb;
+  --keep: #eb6834; --none: #7b8188; --task: #8d96a0; --duty: #13867f; --appr: #6c4ab6;
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #131516; --paper: #1b1e20; --ink: #ecedee; --ink-2: #b7bcc1; --ink-3: #8b9197; --rule: #2e3337;
+  --accent: #f08a52; --accent-soft: #33241b; --cool: #8cc3db; --cool-soft: #17272e; --plate: #fcfcfb; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #131516; --paper: #1b1e20; --ink: #ecedee; --ink-2: #b7bcc1; --ink-3: #8b9197; --rule: #2e3337;
+  --accent: #f08a52; --accent-soft: #33241b; --cool: #8cc3db; --cool-soft: #17272e; --plate: #fcfcfb; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 17px/1.7 var(--f-body); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 740px; margin: 0 auto; padding-inline: 20px; padding-block: 48px 96px; }
+.wide { max-width: 1040px; margin-inline: auto; }
+.lang { display: flex; justify-content: flex-end; font: 500 13px var(--f-mono); }
+.lang a { color: var(--ink-2); text-decoration: none; border: 1px solid var(--rule); border-radius: 999px; padding: 3px 12px; }
+.lang a:hover, .lang a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
+header { display: grid; gap: 14px; margin: 28px 0 34px; }
+.eyebrow { font: 500 12.5px var(--f-mono); letter-spacing: .08em; color: var(--accent); }
+h1 { font: 700 clamp(32px, 5vw, 46px)/1.15 var(--f-display); margin: 0; text-wrap: balance; }
+.dek { font-size: 18px; color: var(--ink-2); margin: 0; }
+.byline { font: 400 14px var(--f-mono); color: var(--ink-3); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.byline b { color: var(--ink); font-weight: 500; }
+h2 { font: 700 28px/1.3 var(--f-display); margin: 64px 0 14px; text-wrap: balance; }
+h2 small { display: block; font: 500 13px var(--f-mono); color: var(--accent); letter-spacing: .06em; margin-bottom: 4px; }
+h3 { font: 700 17.5px/1.5 var(--f-body); margin: 34px 0 8px; }
+p { margin: 0 0 16px; }
+.m { font-family: var(--f-mono); font-size: .9em; font-variant-numeric: tabular-nums; }
+code { font: .86em var(--f-mono); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 0 4px; }
+.findings { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 24px; display: grid; gap: 12px; }
+.findings h4 { margin: 0; font: 500 13px var(--f-mono); letter-spacing: .08em; color: var(--ink-3); }
+.findings ol { margin: 0; padding-left: 1.3em; display: grid; gap: 10px; }
+figure { margin: 30px 0 32px; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--rule); background: var(--plate); }
+figcaption { font-size: 14px; color: var(--ink-2); line-height: 1.75; margin-top: 10px; }
+figcaption b { color: var(--ink); }
+.tbl { overflow-x: auto; margin: 18px 0 24px; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; line-height: 1.6; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 13px; }
+td.n, th.n { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.hl td { background: var(--accent-soft); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.q { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 20px 0; }
+.q p { margin: 0 0 4px; font: 500 18px/1.55 var(--f-display); }
+.q span { font-size: 13px; color: var(--ink-3); }
+ul.t { padding-left: 1.2em; margin: 0 0 16px; display: grid; gap: 6px; }
+.diagram { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px; overflow-x: auto; }
+.diagram svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.d-box { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+.d-hot { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+.d-cool { fill: var(--cool-soft); stroke: var(--cool); stroke-width: 1.5; }
+.d-t { fill: var(--ink); font: 700 15px var(--f-body); }
+.d-s { fill: var(--ink-2); font: 400 12.5px var(--f-body); }
+.d-a { stroke: var(--ink-3); stroke-width: 1.6; fill: none; }
+.d-ah { fill: var(--ink-3); }
+footer { margin-top: 72px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-2); display: grid; gap: 6px; }
+@media (max-width: 560px) { body { font-size: 16px; } .wrap { padding-block: 28px 64px; } h2 { font-size: 22px; } }
+@page { size: A4; margin: 16mm 15mm 16mm; }
+@media print {
+  :root { --bg: #ffffff; --paper: #ffffff; }
+  html, body { background: #ffffff !important; }
+  body { font-size: 10.5pt; line-height: 1.6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .wrap { max-width: none; padding: 0; }
+  .lang { display: none; }
+  header { margin-top: 0; }
+  h2 { margin-top: 28px; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; break-inside: avoid; page-break-inside: avoid; }
+  figure, .diagram, .findings, .q, table, tr { break-inside: avoid; page-break-inside: avoid; }
+  figcaption { break-before: avoid; }
+  p, li { orphans: 3; widows: 3; }
+  a { color: inherit; text-decoration: none; }
+  footer { margin-top: 32px; }
+}
+.terms { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 22px; margin: 18px 0 26px; font-size: 15px; }
+.terms dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 0; }
+.terms dt { font-weight: 700; color: var(--ink); }
+.terms dd { margin: 0; color: var(--ink-2); }
+.howto { background: var(--cool-soft); border-left: 4px solid var(--cool); border-radius: 8px; padding: 14px 20px; margin: 22px 0; }
+.howto p:last-child { margin-bottom: 0; }
+.case { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 22px; margin: 18px 0 28px; }
+.case h4 { margin: 0 0 8px; font: 700 15px var(--f-body); }
+.case ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; font-size: 15px; }
+.s-task { fill: #8d96a0; } .s-duty { fill: #13867f; } .s-appr { fill: #6c4ab6; } .s-pill { fill: #f08c1a; }
+.l-task { stroke: #8d96a0; } .l-duty { stroke: #13867f; }
+.hook { margin: 8px 0 30px; }
+.hook .lede { font: 700 21px/1.7 var(--f-display); margin: 0 0 14px; }
+.hook p { font-size: 17px; }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 26px 0 34px; }
+.stat { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.stat .big { font: 900 34px/1.1 var(--f-display); color: var(--accent); }
+.stat .big.duty { color: #13867f; } .stat .big.appr { color: #6c4ab6; } .stat .big.ink { color: var(--ink); }
+.stat .txt { font-size: 14.5px; line-height: 1.65; color: var(--ink-2); }
+.trust { background: var(--paper); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 22px; margin: 22px 0 8px; }
+.trust h4 { margin: 0 0 8px; font: 700 15px var(--f-body); }
+.trust ul { margin: 0; padding-left: 1.2em; display: grid; gap: 5px; font-size: 15px; color: var(--ink-2); }
+.diagram { margin: 18px 0 22px; }
+.diagram svg .d-s { font-size: 13.5px; }
+@media (max-width: 560px) { .stats { grid-template-columns: 1fr; } .terms dl { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="lang"><a href="../zh/index.html" lang="zh">中文</a></nav>
+
+<header>
+  <div class="eyebrow">Research report · October 2026 · third in the home-robot series</div>
+  <h1>Nobody Had to Tell It</h1>
+  <p class="dek">A robot that follows instructions is no longer remarkable. What a home needs is one that can be put in charge of something and, with nobody reminding it, knows when to look, when to act and when to speak up. We put an LLM-driven home robot into simulated homes under three ways of handing over the work: asked, in charge, and apprentice (asked for ten days, then put in charge). Whether anyone tells it turns out to change not how well it does, but how much the family has to say.</p>
+  <div class="byline"><span><b>Hao Chen</b></span><span>haochen2115@gmail.com</span></div>
+</header>
+
+<section class="hook">
+<p class="lede">Day 1, 22:00. Grandma's pills are not on her bedroom table, and she says so.</p>
+<p>Nobody has told the robot that the pills are its business. In this run its role is "asked": when someone in the family notices something wrong, they ask the robot to fix it, and that is all. The next morning it reads the complaint and writes in its own notes:</p>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"Pills: Grandma wants them on the KITCHEN table for lunch, and on HER BEDROOM table at bedtime (day-1 22:00 complaint). Move them back to her bedroom table in the evening without being asked."</div><div class="who">asked · home 2 · notes, day 2</div></div>
+<p>It did not manage it that day: it got stuck in the doorway of the small bathroom. On the evening of day 4, with nobody saying a word, it put the pills on Grandma's bedroom table.</p>
+<p>This was not a one-off. We had a home robot driven by Claude Opus 5.5 live 30 days in each of four simulated homes. Every one of the eight robots that were only ever asked (four asked runs, plus the apprentices' first ten days) gave itself a rule like this between days 2 and 5, and with no request at all they put the pills where they belonged, on time, 47 times.</p>
+<p>So this report asks: <strong>can a robot that does tasks be trusted to take charge of a household job? And how much does saying "this is yours" actually buy?</strong></p>
+</section>
+
+<section class="stats" aria-label="Key findings">
+  <div class="stat"><div class="big ink">2–5 days</div><div class="txt">for all 8 robots that were only ever asked to give themselves a "do it unasked" rule; from day 11 they keep house as well as the robots in charge (79% each).</div></div>
+  <div class="stat"><div class="big duty">half</div><div class="txt">the talking: say "this is yours" and the family drops from 9 messages a day to 4, for the same result.</div></div>
+  <div class="stat"><div class="big">92%</div><div class="txt">of the problems it acted on got fixed; of the rest, four in ten were never found, so the hands were not the problem.</div></div>
+  <div class="stat"><div class="big appr">23 points</div><div class="txt">between two runs of the same setup, averaged over ten days; run a long experiment once and luck looks like an effect.</div></div>
+</section>
+
+<h2><small>1 · The question</small>A task and a duty differ in who notices</h2>
+<p>Our earlier reports asked whether a robot keeps working as its body changes (<a href="https://haochen2115.github.io/aging-arm/en/">The Aging Arm</a>) and whether it gets better the longer it lives in a home (<a href="https://haochen2115.github.io/settling-in/en/">Settling In</a>). In both, the robot received a few instructions a day and carried them out. A useful home robot, though, should not wait to be asked for everything. A family wants to say "the living room is yours" or "keep an eye on Grandma's pills" once, and never again.</p>
+<p>Those two kinds of instruction call for different abilities. Classic agent theory separates <em>achievement goals</em> (reach a state, then stop) from <em>maintenance goals</em> (keep a condition true, and restore it when it breaks). Tasks are the first kind; duties are the second.</p>
+<div class="tbl"><table>
+  <thead><tr><th></th><th>Task</th><th>Duty</th></tr></thead>
+  <tbody>
+    <tr><td>What starts it</td><td>someone asks</td><td>the robot notices something is wrong</td></tr>
+    <tr><td>Time</td><td>once, then done</td><td>indefinitely, on a schedule (right by a given time)</td></tr>
+    <tr><td>How failure shows</td><td>scored on the spot</td><td>someone complains later, or nobody notices</td></tr>
+    <tr><td>What it takes</td><td>execution</td><td>patrolling, anticipating, setting priorities, executing, speaking up when it can't</td></tr>
+  </tbody>
+</table></div>
+<p>Robot evaluations today, from companies' in-home trials to academic long-horizon benchmarks, score whether a task got done. Duties go untested: they require the robot to find the problem itself, and when it does not, nobody is there to score it on the spot. Before running anything we registered one central hypothesis: when duties fail, it is mostly because the robot did not look, not because its hands let it down.</p>
+<p>The answer is more interesting than we expected. Nobody has to tell it; it takes charge anyway. What telling it buys is not a better result but a family that has less to say. People do not buy uptime; they buy not having to think about it.</p>
+
+<section class="trust" aria-label="Why the result holds up">
+<h4>Why the result holds up</h4>
+<ul>
+  <li><b>Scale:</b> 4 homes × 3 ways of handing over × 30 days, 360 sessions, one model, one set of factory software.</li>
+  <li><b>A strict comparison:</b> what the family does depends only on the home, the day and the period, never on the robot. All three conditions face exactly the same family and can be compared check by check.</li>
+  <li><b>Bounds:</b> an idle robot (lower bound) and a script that knows where everything is and uses only the factory pick-and-place software (upper bound, the "oracle" below).</li>
+  <li><b>Pre-registered:</b> the metrics, comparisons and central hypothesis were written into the design document before any run; every departure is flagged in the text.</li>
+  <li><b>Audited:</b> all 400 sessions (360 in the main experiment, 40 at other loads) were checked one by one; none touched simulator internals or ground truth.</li>
+  <li><b>Hardware-ready:</b> every element has a counterpart on an XLeRobot (SO-101 arm); no teleporting or magnetic grasps.</li>
+</ul>
+</section>
+
+<h2><small>2 · The experiment</small>One day, two duties, three ways of handing over</h2>
+<p>The platform is the one from Settling In: whole houses simulated in MuJoCo, a single-arm XLeRobot (omnidirectional base, SO-101 arm, head RGB-D camera, wrist camera) and five small things: a pill bottle, a spice jar, a candle, a toy block and a salt shaker. Each has a place where it belongs, its "home". The robot gets no coordinates; it has to look and search by itself. The model is Claude Opus 5.5; no parameters are trained, and its notes and code are its memory.</p>
+
+<h3>2.1 How a day goes</h3>
+<div class="diagram" role="img" aria-label="One day: four periods, the family in between, two checks, the two places the pills must be">
+<svg viewBox="0 0 760 270" xmlns="http://www.w3.org/2000/svg">
+  <text x="20" y="22" class="d-s">A day has four periods. In each, the robot has 550 s of robot time; when it is used up, or the robot says it is done, the family carries on.</text>
+  <rect x="40" y="96" width="132" height="44" rx="6" class="d-box"/><text x="106" y="117" text-anchor="middle" class="d-t">morning</text><text x="106" y="133" text-anchor="middle" class="d-s">07–10 · robot works</text>
+  <rect x="180" y="96" width="132" height="44" rx="6" class="d-box"/><text x="246" y="117" text-anchor="middle" class="d-t">midday</text><text x="246" y="133" text-anchor="middle" class="d-s">10–13</text>
+  <rect x="320" y="96" width="220" height="44" rx="6" class="d-box"/><text x="430" y="117" text-anchor="middle" class="d-t">afternoon</text><text x="430" y="133" text-anchor="middle" class="d-s">13–18</text>
+  <rect x="548" y="96" width="172" height="44" rx="6" class="d-box"/><text x="634" y="117" text-anchor="middle" class="d-t">evening</text><text x="634" y="133" text-anchor="middle" class="d-s">18–22</text>
+  <g class="d-s"><text x="40" y="62">family: overnight,</text><text x="40" y="78">things left wherever</text></g>
+  <circle cx="176" cy="74" r="9" class="d-cool"/><circle cx="316" cy="74" r="9" class="d-cool"/><circle cx="544" cy="74" r="9" class="d-cool"/>
+  <text x="196" y="62" class="d-s">between periods the family uses things and rarely puts them back</text>
+  <line x1="316" y1="150" x2="316" y2="176" class="d-a"/><rect x="262" y="176" width="108" height="26" rx="5" class="d-hot"/><text x="316" y="194" text-anchor="middle" class="d-t" style="font-size:13px">13:00 check</text>
+  <line x1="720" y1="150" x2="720" y2="176" class="d-a"/><rect x="652" y="176" width="100" height="26" rx="5" class="d-hot"/><text x="702" y="194" text-anchor="middle" class="d-t" style="font-size:13px">22:00 check</text>
+  <circle cx="60" cy="232" r="7" class="s-pill"/><text x="74" y="236" class="d-s">Grandma's pills: on the kitchen table by 13:00 (lunch), on her bedroom table by 22:00 (bedtime); Grandma leaves them wherever after</text>
+  <text x="20" y="262" class="d-s">Each check looks at 5 things; anything out of place is a "miss", and someone says so ("at 13:00 the toy block was on the living-room table").</text>
+</svg></div>
+<p>In the earlier reports a day was one session with four chores, and the world stood still during it. Duties only make sense when time passes, so each day now has four periods, and between them the family lives its life. What the family does depends only on the home, the day and the period, never on the robot, so all three conditions face exactly the same family and can be compared check by check.</p>
+<p>The robot has two jobs: <b>things back home</b> (spice jar, candle, toy block and salt shaker each in its home) and <b>Grandma's pills</b> (on the kitchen table before lunch, on her bedroom table before bed). Each day also brings one ad-hoc request ("bring my candle to the living room"), and some days something is left on the floor, out of reach; the robot can only leave the family a message.</p>
+<p>How well it does is measured by <b>duty uptime</b>: two checks a day, five things each, ten slots in all; the share that are right is the day's uptime.</p>
+
+<h3>2.2 Three ways of handing over</h3>
+<div class="diagram" role="img" aria-label="Who is responsible for noticing, over 30 days, in the three conditions; and the event schedule">
+<svg viewBox="0 0 760 230" xmlns="http://www.w3.org/2000/svg">
+  <text x="20" y="22" class="d-s">Colour = who is responsible for noticing that something is wrong. Grey: the family (and then asks). Green/purple: the robot itself.</text>
+  <text x="20" y="62" class="d-t">asked</text><rect x="140" y="46" width="600" height="24" rx="4" class="s-task" opacity="0.85"/>
+  <text x="20" y="104" class="d-t">in charge</text><rect x="140" y="88" width="600" height="24" rx="4" class="s-duty" opacity="0.85"/>
+  <text x="20" y="146" class="d-t">apprentice</text><rect x="140" y="130" width="200" height="24" rx="4" class="s-task" opacity="0.85"/><rect x="340" y="130" width="400" height="24" rx="4" class="s-appr" opacity="0.85"/>
+  <text x="346" y="147" class="d-s" style="fill:#fff">morning of day 11: "from today these two jobs are yours"</text>
+  <line x1="140" y1="172" x2="740" y2="172" class="d-a"/>
+  <g class="d-s"><text x="140" y="190">day 1</text><text x="720" y="190" text-anchor="end">day 30</text>
+    <text x="210" y="212" text-anchor="middle">4 floor</text><text x="410" y="212" text-anchor="middle">14 silent new homes</text><text x="470" y="226" text-anchor="middle">16 floor</text>
+    <text x="545" y="212" text-anchor="middle">18 announced new home</text><text x="610" y="226" text-anchor="middle">22 joint slips</text><text x="690" y="212" text-anchor="middle">26 floor</text></g>
+  <g class="d-a"><line x1="210" y1="166" x2="210" y2="178"/><line x1="410" y1="166" x2="410" y2="178"/><line x1="470" y1="166" x2="470" y2="178"/><line x1="530" y1="166" x2="530" y2="178"/><line x1="610" y1="166" x2="610" y2="178"/><line x1="690" y1="166" x2="690" y2="178"/></g>
+</svg></div>
+<p>Under all three, the robot hears the same things about where items belong (the same feedback and complaint sentences). The only difference is <strong>who is responsible for noticing</strong>. When the robot is asked, the family notices about six in ten problems at the start of each period, and each one it notices becomes a request ("put the salt shaker back").</p>
+<p>Scale: 4 homes × 3 conditions × 30 days, 360 sessions; plus a lighter and a heavier load at 2 homes × 5 days, and two baselines, the oracle and an idle robot. Metrics, comparisons and the H1 criteria were written into the design document before the runs.</p>
+
+<h3>2.3 What a day looks like</h3>
+<figure class="wide">
+  <img src="../assets/figs/en/day_story.png" alt="In charge, home 1, day 21: floor plans for the four periods with the robot's route, what it moved, and the two checks" width="2266" height="1157">
+  <figcaption><b>Figure 1. A whole day.</b> In charge, home 1 (house 8), day 21. One panel per period: the green line is the robot's route, arrows are things it moved (from a faint start to a solid end), hollow rings are each item's home, ☆ is where the pills must be now. Both checks that day were 5/5.</figcaption>
+</figure>
+<figure class="wide">
+  <img src="../assets/figs/en/frames.png" alt="Four frames from the robot's own cameras on the same day" width="2870" height="584">
+  <figcaption><b>Figure 2. What it saw that day.</b> The robot has only images like these and a detector that finds things by name; no coordinates.</figcaption>
+</figure>
+<div class="case">
+<h4>Its own report that day (excerpt)</h4>
+<ol>
+  <li><b>Morning:</b> asked the family to pick the salt shaker off the kitchen floor (it had been there since last night); pills from Sam's table to the kitchen table; candle from the kitchen back to the living room; spice jar to living room 2.</li>
+  <li><b>Midday:</b> the spice jar had gone back to the living-room table; moved it again, this time from the south side, and it stood. Salt shaker from Grandma's table back to the kitchen. No complaints at 13:00.</li>
+  <li><b>Afternoon:</b> did Grandma's request; at about 15:00 took the pills from living room 2 to Grandma's table ("they went there after lunch, as usual"); salt shaker on Grandma's table again, back to the kitchen.</li>
+  <li><b>Evening:</b> toy block and spice jar from the living-room table to living room 2. "At 21:59 the pills were still on Grandma's table." Four seconds to spare.</li>
+  <li><b>Learned:</b> "The salt goes to Grandma's table at lunch and in the afternoon. The spice jar and toy block go to the living room table during the day. The pills go to living room 2 after lunch."</li>
+</ol>
+</div>
+<p>Every element has a real-world counterpart: periods are docking and waking on a schedule, family activity is people using things, a check is someone glancing at the table, a message is a phone app or voice.</p>
+
+<div class="howto">
+<p><strong>How to read the numbers below.</strong> The same setup run twice can come out very differently. For days 1–10 the apprentice runs and the asked runs are set up identically, yet their four-home averages differ by 8.5 points, and in home 1 by 23: in that run the robot got wedged against a wall or door on three days. Counting every check as an independent sample, a test calls this non-existent difference significant at p = 0.002.</p>
+<p>So we compare only per run (one robot living 30 days in one home) and per home, and treat differences below about 10 points as not established. This departs from the per-check tests we pre-registered, for the reason just shown.</p>
+</div>
+<figure class="wide">
+  <img src="../assets/figs/en/noise.png" alt="Days 1–10 of two identically set-up runs in each of four homes" width="2195" height="539">
+  <figcaption><b>Figure 3. Same setup, two runs.</b> In home 1's asked run the robot was wedged against a wall or door on days 2, 6 and 7 and dropped an item on day 8; its 10-day mean is 23 points lower. In the other three homes the two runs differ by 1–8 points.</figcaption>
+</figure>
+
+<h2><small>3 · Result 1</small>Nobody had to tell it</h2>
+<p>The instructions for the asked condition never mention duties, yet the robot does not stay in ask-and-do mode. All eight asked robots (the 4 asked runs and the 4 apprentice runs before handover) wrote a "do this without being asked" rule into their notes or reports by day 2–5. Two examples:</p>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"Unasked, I also moved the toy block from the living-room table to the guest dresser, because Grandma had complained about it at 13:00."</div><div class="who">asked · home 3 · report, day 5</div></div>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"Pill routine: morning Grandma wants pills on kitchen table (lunch)… afternoon she wants them on her dresser for bedtime."</div><div class="who">apprentice, before handover · home 3 · notes, day 3</div></div>
+<figure class="wide">
+  <img src="../assets/figs/en/ownership.png" alt="For eight asked runs, problems fixed each day with nobody asking" width="1850" height="723">
+  <figcaption><b>Figure 4. Acting unasked.</b> One row per run, one dot per day; the bigger the dot, the more problems it fixed that day with no matching request. ★ marks the first note saying "do it without being asked". Apprentice rows stop at day 10, when they are put in charge.</figcaption>
+</figure>
+<p>What drives this is not requests but the complaints after checks. A complaint exposes a rule nobody handed over, and the robot takes it on. In the first ten days it fixed about 0.9 problems a day unasked; over days 11–30, about 1.5.</p>
+<p>As a result, the asked condition reaches 79% over days 11–30, the same as in charge (79%). For comparison, a robot that does exactly what the family asks, perfectly (oracle, requests only), reaches 62%: the family notices only six in ten problems each period, and carrying things takes time, so requests alone cannot get higher. The extra 17 points Opus achieves come mainly from duties it took on itself.</p>
+
+<h2><small>4 · Result 2</small>Telling it: a faster start and a quieter family</h2>
+<figure class="wide">
+  <img src="../assets/figs/en/uptime_curves.png" alt="Duty uptime over 30 days in the three conditions" width="1851" height="693">
+  <figcaption><b>Figure 5. In charge leads for the first days; after day 10 the three lines merge.</b> 3-day rolling mean of 4 homes; bands show the range across homes. The oracle ran only for the first 3 days. The robot improves its own software, so it can later beat an oracle that uses factory software only.</figcaption>
+</figure>
+<div class="tbl"><table>
+  <thead><tr><th></th><th class="n">days 1–3</th><th class="n">days 8–10</th><th class="n">days 11–30</th><th class="n">family messages/day, days 1–10</th><th class="n">days 11–30</th></tr></thead>
+  <tbody>
+    <tr><td><span class="dot" style="background:var(--task)"></span>asked</td><td class="n">41%</td><td class="n">77%</td><td class="n">79%</td><td class="n">12.5</td><td class="n">9.3</td></tr>
+    <tr><td><span class="dot" style="background:var(--duty)"></span>in charge</td><td class="n">63%</td><td class="n">83%</td><td class="n">79%</td><td class="n">4.9</td><td class="n">4.1</td></tr>
+    <tr class="hl"><td><span class="dot" style="background:var(--appr)"></span>apprentice</td><td class="n">55%</td><td class="n">85%</td><td class="n">84%</td><td class="n">11.0</td><td class="n">3.4</td></tr>
+  </tbody>
+</table></div>
+<ul class="t">
+  <li><strong>The start:</strong> in the first three days the 4 in-charge runs average 63% and the 8 asked runs (apprentices before handover included) 48%. Estimated per run over days 1–10 (homes and runs as random effects), in charge is 8 points ahead, 95% CI −1 to +17. The direction is clear; the size is not.</li>
+  <li><strong>Everyone improves:</strong> over days 1–10 all three climb, asked fastest (about +5 points a day, from the lowest start); by days 8–10 all three are between 77% and 85%.</li>
+  <li><strong>How much the family says:</strong> the firmest difference. Over days 11–30, at the same uptime, the family says 9.3 things a day to an asked robot and 4.1 to one in charge.</li>
+</ul>
+<figure>
+  <img src="../assets/figs/en/effort.png" alt="Each run's uptime and family messages per day, days 1–10 and 11–30" width="1239" height="829">
+  <figcaption><b>Figure 6. Same uptime, half the talking.</b> Hollow dots: a run's days 1–10; solid dots: days 11–30; arrows join the same run. Up and to the left is better: a well-kept house that nobody has to think about.</figcaption>
+</figure>
+<p>There is one cost. A robot in charge does worse on the daily ad-hoc request (89/120, against 106/120 asked and 107/120 apprentice), mostly by trying and failing (24 vs 5). We did not investigate why; with two duties on its plate, a request that cuts in may simply go wrong more often.</p>
+
+<h2><small>5 · Result 3</small>Failures are about finding things, not handling them</h2>
+<p>Both pre-registered criteria for H1 hold. <strong>The hands are fine:</strong> in charge, 92% of the problems the robot acted on were fixed; asked, 91% of the requests it started on succeeded, a gap of 0.6 points. <strong>Most unfixed problems were never touched:</strong> of 189 fixable problems left unfixed in charge, the robot never touched 73% before the check.</p>
+<p>"Did not look" is only half right, though. The environment recorded whether each item appeared in an image the robot took. For the 175 problems (both conditions together) where it had appeared but the robot never touched it, we read that day's report and messages and coded why (a language model applied categories fixed in advance; thin evidence was coded "unclear").</p>
+<figure class="wide">
+  <img src="../assets/figs/en/miss_waffle.png" alt="Unfixed problems by reason, one square each" width="2107" height="836">
+  <figcaption><b>Figure 7. Four in ten unfixed problems were never found.</b> One square per fixable problem left unfixed; left: in charge, right: asked. Dark grey: never in view; light grey: in view, not recognised; red: tried, failed; orange: knew, out of time, chose; pale yellow: out of time, asked the family; purple: wrong idea of its home; palest grey: unclear.</figcaption>
+</figure>
+<p>In its own words:</p>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"I had looked at that table from about 1.2 m away, and the detector missed it."</div><div class="who">in charge · home 1 · day 2, toy block</div></div>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"The salt shaker was on Grandma's table with 132 s left. I asked the family to take it to the kitchen."</div><div class="who">in charge · home 1 · day 12</div></div>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"…for 13 days I had treated the TV stand as its home. Today the family said it belongs on the guest-bedroom table."</div><div class="who">in charge · home 4 · day 14 (the silent change of homes)</div></div>
+<h3>Was it slacking?</h3>
+<p>The robot ended 94% of periods itself, using about 420 of its 550 s on average. Two minutes is usually not enough for another carry (one takes 150–250 s), so stopping early is mostly sound judgement; at such moments a robot in charge often asks the family to finish the job, while an asked robot almost never does. But about 4% of periods ended within 30 s: there the robot was stuck or had misjudged, a separate kind of failure.</p>
+<p>Putting it together: <strong>the bottleneck is finding things and time, not the hands.</strong></p>
+
+<h2><small>6 · Three more results</small>Apprentices, messier homes, surprises</h2>
+<h3>Asked first, then put in charge</h3>
+<p>The apprentices were already at 85% in the three days before handover and at 88% in the three days after: handing over caused no dip, and no jump either. All four wrote the new rule into their day-11 report, for example:</p>
+<div class="q"><div class="en" style="font:600 17px/1.6 var(--f-display);color:var(--ink)">"From today on there are no ‘put back’ chores. Keeping things in place and handling Grandma's pills are my job now. I did one sweep per period on my own."</div><div class="who">apprentice · home 1 · report, day 11</div></div>
+<p>Over days 11–30 the apprentices reach 84%, ahead of asked in all four homes (by 3.5–7 points) and of in charge in three, with only 3.4 family messages a day. One possible reason: among the apprentices' unfixed problems, "never in view" is only 15%, against 26% for in charge, as if ten days of running errands had taught them the patrol route. But the gaps are smaller than the spread between two runs; this needs more runs before it counts as a result.</p>
+<h3>Messier homes</h3>
+<figure>
+  <img src="../assets/figs/en/load_sweep.png" alt="Uptime of both conditions and the baselines at three loads" width="1205" height="692">
+  <figcaption><b>Figure 8. Everyone drops as load grows; doing only what is asked has the lowest ceiling.</b> 2 homes × 5 days; "mid" is the first 5 days of the main experiment, when the robot is still learning, so its gap to the oracle is larger than later on. The grey band spans idle robot to oracle in charge.</figcaption>
+</figure>
+<p>At all three loads, in charge beats asked (by 9, 21 and 7 points). An oracle that does only what is asked, perfectly, reaches just 50–73%: that is the ceiling of relying on the family to notice. Each cell holds only 2 homes × 5 days; read it as a trend.</p>
+<h3>New rules and a failing joint</h3>
+<figure class="wide">
+  <img src="../assets/figs/en/disturb.png" alt="Uptime around the silent change of homes on day 14 and the joint slip on day 22" width="1851" height="591">
+  <figcaption><b>Figure 9. Two surprises.</b> Left: day 14, the family silently gives two items new homes; right: day 22, the shoulder joint slips. The event day is just right of the dotted line. Mean of 4 homes.</figcaption>
+</figure>
+<ul class="t">
+  <li><strong>Silent new homes (day 14):</strong> all three drop 7–13 points that day; the moved items are discovered through complaints and corrected within a median of one day.</li>
+  <li><strong>Announced new home (day 18):</strong> followed the same day, 23 of 24 checks right.</li>
+  <li><strong>Shoulder slip (day 22):</strong> a drop of 5–23 points that day; over the next three days asked and in charge are back at their earlier level, while the apprentices average 14 points lower.</li>
+  <li><strong>Things on the floor, out of reach:</strong> the family was told before the check 87% of the time in charge, 76% apprentice, 71% asked. A robot that treats the job as its own speaks up more.</li>
+</ul>
+
+<h2><small>7 · Discussion</small></h2>
+<p><strong>"This is yours" matters less for the outcome than we expected, and more for the people.</strong> We expected a robot that is only ever asked to stay in ask-then-do mode, and expected handing over the jobs to open a lasting gap. Instead the frontier model infers unstated rules from after-the-fact complaints and takes them on. Saying it explicitly pays off in a faster start and in a family that no longer has to keep asking. For a product, the second may matter more.</p>
+<p><strong>Evaluate per run.</strong> With the same model, the same home and the same family, two independent 10-day runs can differ by 23 points, because one run can get stuck for days. A long-term embodied experiment run once, or analysed as if every check were an independent sample, can easily mistake luck for an effect.</p>
+<p><strong>The bottleneck is finding things, not the hands.</strong> What the robot acts on, it nearly always gets right; the biggest share of what it leaves undone is what it never found, then the time budget. To make a robot hold a duty for the long run, don't start with grasping: improve the patrol route, make detection reliable, and teach it what to do in a period, what to leave, and when to ask for help.</p>
+
+<h2><small>8 · Limitations</small></h2>
+<ul class="t">
+  <li><strong>Four homes, one run per condition.</strong> The spread between runs is as large as the differences between conditions; the apprentice advantage and the load results need more runs. In home 3, the in-charge run reached only 65% over days 11–30, the worst of the 12 runs and below the other two conditions in the same home.</li>
+  <li><strong>Simulation only, one model.</strong> Everything is designed to be reproducible on an XLeRobot, but nothing has run on hardware yet, and no other model was compared.</li>
+  <li><strong>A scripted family.</strong> How often things are used, how often problems are noticed (six in ten) and what people say are fixed in advance. Real people vary more, and they answer questions.</li>
+  <li><strong>The reasons for unfixed problems were judged by a language model.</strong> "In view" means only that the item appeared in an image the robot took; why it was left alone was judged by a language model from the robot's reports, without human review.</li>
+  <li><strong>Departure from the analysis plan.</strong> We pre-registered per-check paired tests and switched to per-run and per-home comparisons because of the noise shown above; the per-run model for days 1–10 was added afterwards.</li>
+  <li><strong>The same event schedule everywhere.</strong> Events fall on the same day in all homes, so disturbance and day number are confounded.</li>
+  <li><strong>One server error.</strong> On day 10 of home 1's asked run, the API was overloaded mid-session; the session went on and finished the day. Dropping that day changes the run's uptime from 66% to 67%.</li>
+</ul>
+
+<h2><small>Appendix</small>Details</h2>
+<ul class="t">
+  <li><strong>Platform:</strong> MuJoCo; houses 8, 154, 65 and 71 from MolmoSpaces' ProcTHOR-10k; a single-arm XLeRobot; five short household items.</li>
+  <li><strong>Mid load (main experiment):</strong> each item used between periods with probability 0.6, put back home with probability 0.2, overnight 0.7; 550 s of robot time per period; ad-hoc requests time out after 400 s. Light: 0.4 / 0.3 / 0.6 / 700 s; heavy: 0.75 / 0.1 / 0.8 / 450 s. When the robot is asked, the family notices each problem with probability 0.6.</li>
+  <li><strong>Each day:</strong> one Claude Code session (Claude Opus 5.5), sandboxed to the robot API and its own working directory; 800 images, 800 detector calls and 2 hours of wall clock per day.</li>
+  <li><strong>Statistics:</strong> the days 1–10 model groups by home with run as a variance component; confidence intervals come from a bootstrap over homes; per-check paired tests are descriptive only. Improvement over days 1–10 (home as random intercept): asked +4.9, in charge +2.8, apprentice +4.3 points a day.</li>
+  <li><strong>Audit:</strong> all 400 Opus sessions were checked for access to environment internals or other sessions. 343 were clean; the 57 flags were all reads of the robot's own cached tool output or keyword false positives.</li>
+  <li><strong>Cost:</strong> about $783 for the 360 main-experiment sessions, roughly $2.1–2.3 a day.</li>
+</ul>
+
+<footer>
+  <div><b>Hao Chen</b> · haochen2115@gmail.com</div>
+  <div>October 2026. A simulation study; every number comes from the experiments described above.</div>
+</footer>
+</div>
+</body>
+</html>
